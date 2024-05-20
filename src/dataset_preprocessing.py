@@ -1,12 +1,20 @@
 import librosa
 from datasets import load_dataset
 from src.utils import get_processed_dataset_path
+import numpy as np
+
+def pad_with_zeroes(desired_size, array):
+    padded_array = np.zeros(desired_size)
+    padded_array[:, :array.shape[1]] = array[:, :desired_size[1]]
+    return padded_array
 
 
 def to_mfcc(example):
     audio_array = example["audio"]["array"]
     sr = example["audio"]["sampling_rate"]
     mfcc = librosa.feature.mfcc(y=audio_array, sr=sr, n_mfcc=40)
+    mfcc /= 1000
+    mfcc = pad_with_zeroes((40, 60), mfcc)
     return {"mfcc": mfcc}
 
 
