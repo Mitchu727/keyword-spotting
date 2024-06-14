@@ -54,6 +54,8 @@ def get_training_path() -> Path:
     return Path(__file__)
 
 
+# Assuming that we are on a CUDA machine, this should print a CUDA device:
+
 if __name__ == "__main__":
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -61,10 +63,15 @@ if __name__ == "__main__":
 
     train_loader, validation_loader, test_loader = prepare_dataloaders()
 
+    # model = Net().to(device)
     model = NetV2().to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     # scheduler = ReduceLROnPlateau(optimizer, 'min', patience=50, factor=0.8, verbose=True)
+
+    # sample = train_dataset_raw["mfcc"][0].unsqueeze(0).unsqueeze(0).to(device)
+    # print(sample.shape)
+    # print(model(sample))
 
     for epoch in range(1):
         running_loss = 0.0
@@ -78,10 +85,10 @@ if __name__ == "__main__":
             # forward + backward + optimize
             outputs = model(mfcc)
             loss = criterion(outputs, label.to(device))
+
+            #
             loss.backward()
             optimizer.step()
-
-            # update statistics
             running_loss += loss.item()
 
         print(f'Epoch [{epoch + 1}],  training_loss: {running_loss / 100:.3f}')
@@ -96,8 +103,8 @@ if __name__ == "__main__":
         writer.add_scalar("val/accuracy", val_accuracy, epoch)
 
     test_loss, test_accuracy = evaluate_on_dataset(model, test_loader, criterion, device)
-    print("Test Loss: {:.4f}".format(test_loss))
-    print("Test Accuracy: {:.2f}%".format(100 * test_accuracy))
+    print("Validation Loss: {:.4f}".format(test_loss))
+    print("Validation Accuracy: {:.2f}%".format(100 * test_accuracy))
 
     # scheduler.step(val_loss)
     writer.add_scalar("test/test_loss", test_loss)

@@ -1,6 +1,13 @@
+from pathlib import Path
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+
+def get_models_path() -> Path:
+    return Path(__file__)
+
 
 class Net(nn.Module):
     def __init__(self):
