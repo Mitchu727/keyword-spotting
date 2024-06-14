@@ -59,12 +59,12 @@ if __name__ == "__main__":
 
     train_loader, validation_loader, test_loader = prepare_dataloaders()
 
-    model = NetV2().to(device)
+    model = Net().to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     # scheduler = ReduceLROnPlateau(optimizer, 'min', patience=50, factor=0.8, verbose=True)
 
-    for epoch in range(1):
+    for epoch in range(1000):
         running_loss = 0.0
         for batch in train_loader:
             mfcc, label = batch
