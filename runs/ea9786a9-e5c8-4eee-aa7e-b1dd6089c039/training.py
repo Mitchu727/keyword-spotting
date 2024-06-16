@@ -3,14 +3,13 @@ from pathlib import Path
 import torch
 import torch.utils.data as data_utils
 from torch.utils.tensorboard import SummaryWriter
-from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.optim as optim
 import torch.nn as nn
 
 from datasets import load_from_disk
 
 from src.utils import get_processed_dataset_path, get_run_dir, save_training_and_models_file_to_run_folder, evaluate_on_dataset
-from src.models import Net, NetV2, get_models_path
+from src.models import Net, get_models_path
 import uuid
 
 

@@ -60,6 +60,7 @@ if __name__ == "__main__":
 
     model = Net().to(device)
     criterion = nn.CrossEntropyLoss()
+    # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     for epoch in range(1000):

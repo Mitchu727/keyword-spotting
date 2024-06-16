@@ -3,14 +3,13 @@ from pathlib import Path
 import torch
 import torch.utils.data as data_utils
 from torch.utils.tensorboard import SummaryWriter
-from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.optim as optim
 import torch.nn as nn
 
 from datasets import load_from_disk
 
 from src.utils import get_processed_dataset_path, get_run_dir, save_training_and_models_file_to_run_folder, evaluate_on_dataset
-from src.models import Net, NetV2, get_models_path
+from src.models import Net, get_models_path
 import uuid
 
 
@@ -59,12 +58,12 @@ if __name__ == "__main__":
 
     train_loader, validation_loader, test_loader = prepare_dataloaders()
 
-    model = NetV2().to(device)
+    model = Net().to(device)
     criterion = nn.CrossEntropyLoss()
+    # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
-    # scheduler = ReduceLROnPlateau(optimizer, 'min', patience=50, factor=0.8, verbose=True)
 
-    for epoch in range(1):
+    for epoch in range(1000):
         running_loss = 0.0
         for batch in train_loader:
             mfcc, label = batch
@@ -97,7 +96,6 @@ if __name__ == "__main__":
     print("Test Loss: {:.4f}".format(test_loss))
     print("Test Accuracy: {:.2f}%".format(100 * test_accuracy))
 
-    # scheduler.step(val_loss)
     writer.add_scalar("test/test_loss", test_loss)
     writer.add_scalar("test/accuracy", test_accuracy)
 

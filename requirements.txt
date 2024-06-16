@@ -2,3 +2,6 @@ datasets
 librosa
 soundfile
 matplotlib
+torch
+torchaudio
+torchvision

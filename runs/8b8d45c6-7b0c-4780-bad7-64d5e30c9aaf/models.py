@@ -12,10 +12,10 @@ def get_models_path() -> Path:
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
-        self.conv1 = nn.Conv2d(1, 64, (8, 20))
-        self.pool1 = nn.MaxPool2d((3, 1), 1)
-        self.conv2 = nn.Conv2d(64, 64, (4, 10))
-        self.fc1 = nn.Linear(7168, 32)
+        self.conv1 = nn.Conv2d(1, 64, 5)
+        self.pool1 = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(64, 64, 5)
+        self.fc1 = nn.Linear(8960, 32)
         self.fc2 = nn.Linear(32, 128)
         self.fc3 = nn.Linear(128, 128)
         self.fc4 = nn.Linear(128, 128)
@@ -30,5 +30,4 @@ class Net(nn.Module):
         x = F.relu(self.fc3(x))
         x = F.relu(self.fc4(x))
         x = self.fc5(x)
-        x = F.softmax(x, dim=1)
         return x
