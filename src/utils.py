@@ -21,6 +21,9 @@ def get_run_dir(experiment_id) -> Path:
     return get_project_root() / "runs" / experiment_id
 
 
+def get_plots_directory() -> Path:
+    return get_project_root() / "src" / "plots"
+
 def visualise(path: str, mfccs) -> None:
     fig, ax = plt.subplots()
     img = librosa.display.specshow(mfccs, x_axis='time', ax=ax)

@@ -8,7 +8,7 @@ import numpy as np
 
 def print_dictionary(dictionary):
     for key, value in dictionary.items():
-        print(f'{key}: {value}')
+        print(f'{key}, {value}')
 
 
 def increment_dict_with_key(dictionary, key):
